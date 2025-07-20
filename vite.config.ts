@@ -6,18 +6,20 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
   server: {
-    host: "::",
-    port: 8080,
+    host: "::",        // Listen on all IPv6 interfaces
+    port: 8080,        // Change port if needed (default is 5173)
   },
-  base: '/hexanio-pulse-web/',
   plugins: [
     react(),
-    mode === 'development' &&
-    componentTagger(),
-  ].filter(Boolean),
+    mode === 'development' && componentTagger(), // Only use tagger in dev
+  ].filter(Boolean), // Filters out 'false' (if mode !== 'development')
+
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": path.resolve(__dirname, "./src"), // Use "@/..." to reference ./src
     },
   },
+
+  // Optional: Add base config for deployment (Vercel uses "/")
+  base: "/",
 }));
